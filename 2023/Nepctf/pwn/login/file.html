@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Management</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>File Management</h1>
+    <button onclick="listFiles()">Refresh List</button>
+    <h2>File List</h2>
+    <div id="file-list"></div>
+    
+    <script>
+    $(document).ready(function(){
+        listFiles();
+        $("#upload-form").submit(function(e){
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/add_file',
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    alert("File uploaded successfully");
+                    listFiles();
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    });
+
+    function listFiles() {
+        $.get("/list_files/", function(data){
+            $("#file-list").html(data);
+        });
+    }
+
+    function viewFile(filename) {
+        window.location = '/view_file/' + filename;
+    }
+    </script>
+</body>
+</html>

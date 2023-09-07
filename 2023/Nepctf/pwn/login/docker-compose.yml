@@ -1,0 +1,7 @@
+version: "2"
+services:
+  login:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "0:8080"
